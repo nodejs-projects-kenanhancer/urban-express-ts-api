@@ -1,0 +1,80 @@
+version: '3.4'
+
+services:
+  urban_express_ts_api:
+    image: urban_express_ts_api
+    container_name: urban_express_ts_api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      GOOGLE_API_KEY: AIzaSyBqBXL1AKXouvvtku1jYXXhL5mtqhrJXLk
+      CACHE_DATASOURCE: mongodbDs
+    ports:
+      - "3000:3002"
+    expose:
+      - "3002"
+    depends_on:
+      - urban_mongo_ds
+    #     - urban_redis_ds
+    networks:
+      backend:
+
+  urban_express_ts_api_watch:
+    image: node:15.3.0-alpine3.10
+    container_name: urban_express_ts_api_watch
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      GOOGLE_API_KEY: AIzaSyBqBXL1AKXouvvtku1jYXXhL5mtqhrJXLk
+      CACHE_DATASOURCE: mongodbDs
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    working_dir: "/usr/src/app"
+    entrypoint:
+      - "sh"
+      - "-c"
+      - "npm run watch"
+    #     - "npm install && npm run watch"
+    volumes:
+      - ".:/usr/src/app"
+    #     - "/usr/src/app/node_modules"
+    depends_on:
+      - urban_redis_ds # This service depends on redis. Start that first.
+      - urban_mongo_ds
+    networks:
+      backend:
+
+  # Redis Service
+  urban_redis_ds:
+    image: redis:latest
+    container_name: urban_redis_ds
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
+    restart: always
+    networks:
+      backend:
+
+  # Mongo Service
+  urban_mongo_ds:
+    image: mongo:latest
+    container_name: urban_mongo_ds
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    restart: always
+    networks:
+      backend:
+
+# Networks to be created to facilitate communication between containers
+networks:
+  backend:

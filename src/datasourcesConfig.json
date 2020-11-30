@@ -1,0 +1,20 @@
+{
+  "mongodbDs": {
+    "name": "mongodbDs",
+    "type": "mongo",
+    "host": "127.0.0.1",
+    "port": 27017,
+    "database": "urbanDs",
+    "password": "",
+    "user": "",
+    "useNewUrlParser": true
+  },
+  "redisDs": {
+    "name": "redisDS",
+    "type": "redis",
+    "host": "127.0.0.1",
+    "port": 6379,
+    "password": "",
+    "database": 0
+  }
+}
