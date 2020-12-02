@@ -4,39 +4,38 @@ import {CallbackFunction, HandleFunction, NextHandleFunction} from "./base/handl
 import {HttpServer} from "./base";
 
 class ExpressHttpServer implements HttpServer {
-    private readonly app: express.Application;
+    private readonly _app: express.Application;
     private onCloseCallback?: CallbackFunction;
     private onConnectionCallback?: CallbackFunction;
     private onErrorCallback?: CallbackFunction;
     private onListeningCallback?: CallbackFunction;
 
     constructor(public readonly port: number) {
-        this.app = express();
-        this.initializeMiddlewares();
+        this._app = express();
     }
 
-    private initializeMiddlewares(): void {
-        this.app.use(express.json());
+    get app(): any {
+        return this._app;
     }
 
     public get(name: string): any {
-        return this.app.get(name);
+        return this._app.get(name);
     }
 
     public set(name: string, value: any): this {
-        this.app.set(name, value);
+        this._app.set(name, value);
 
         return this;
     }
 
     public useMiddleware(handler: HandleFunction): this {
-        this.app.use(handler);
+        this._app.use(handler);
 
         return this;
     }
 
     public useRoute(path: string, handler: NextHandleFunction): this {
-        this.app.use(path, handler);
+        this._app.use(path, handler);
 
         return this;
     }
@@ -66,7 +65,7 @@ class ExpressHttpServer implements HttpServer {
     }
 
     public listen(callback?: CallbackFunction): http.Server {
-        const server: http.Server = this.app.listen(this.port, callback);
+        const server: http.Server = this._app.listen(this.port, callback);
 
         if (this.onCloseCallback) {
             server.on("close", this.onCloseCallback);

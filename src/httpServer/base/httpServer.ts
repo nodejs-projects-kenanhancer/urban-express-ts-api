@@ -2,6 +2,8 @@ import http from "http";
 import {CallbackFunction, HandleFunction, NextHandleFunction} from "./handleType";
 
 export interface HttpServer {
+    app():any;
+
     get(name: string): any;
 
     set(name: string, value: any): this;

@@ -7,7 +7,9 @@
     "database": "urbanDs",
     "password": "",
     "user": "",
-    "useNewUrlParser": true
+    "useNewUrlParser": true,
+    "useUnifiedTopology": true,
+    "useCreateIndex": true
   },
   "redisDs": {
     "name": "redisDS",

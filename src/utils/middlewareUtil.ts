@@ -5,10 +5,6 @@ export function asyncHandler(fn: NextHandleFunction) {
     return (request: Request, response: Response, next: any) =>
         Promise
             .resolve(fn(request, response, next))
-            .then(async (val: any) => {
-                if (val) {
-                    await val();
-                }
-            })
+            .then(async (val: any) => val && await val())
             .catch(next);
 }

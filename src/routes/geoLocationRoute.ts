@@ -14,9 +14,9 @@ export function geoLocationRoute(): NextHandleFunction {
     const geoLocationController: IGeoLocationController = new GeoLocationController();
 
     router.get("/geolocation/:address",
-        geoLocationValidatorMiddleware(),
+        // geoLocationValidatorMiddleware(),
         // geoLocationRedisCacheMiddleware(),
-        geoLocationMongoCacheMiddleware(),
+        // geoLocationMongoCacheMiddleware(),
         asyncHandler(async (request: Request, response: Response, next: any): Promise<void> => {
             const address: string = request.params.address;
 

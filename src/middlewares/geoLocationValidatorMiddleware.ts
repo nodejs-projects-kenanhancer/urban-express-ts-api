@@ -12,5 +12,4 @@ export function geoLocationValidatorMiddleware(): NextHandleFunction {
     };
 
     return middleware;
-
 }

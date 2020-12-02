@@ -1,7 +1,3 @@
-import * as dotenv from "dotenv";
-
-dotenv.config({path: `.env${(process.env.NODE_ENV && `.${process.env.NODE_ENV}`) || ""}`});
-
 import {Errors} from "../constants";
 
 export function validateTokens(): void {
